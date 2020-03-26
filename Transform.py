@@ -4,7 +4,7 @@ Module qui permet de générer une image pour un casque de réalité virtuelle �
 partir d'une caméra stéréoscopique
 
 Projet réalisé dans le cadre du projet de fin session du cours SYS809-vision
-par ordinateur
+par ordinateur CALIB_ZERO_TANGENT_DIST
 """
 
 import cv2
