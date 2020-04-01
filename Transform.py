@@ -1,21 +1,23 @@
+# -*- coding: latin-1 -*-
 """
 @brief
 Module qui permet de générer une image pour un casque de réalité virtuelle à
 partir d'une caméra stéréoscopique
 
 Projet réalisé dans le cadre du projet de fin session du cours SYS809-vision
-par ordinateur CALIB_ZERO_TANGENT_DIST
+par ordinateur.
 """
-
+import sys
 import cv2
+
 import numpy as np
 from matplotlib import pyplot as plt
 
 from calibration import StereoCalibration
 
 data = "/Users/aubinheissler/Desktop/ETS/cours/SYS_809/Projet/data_calib"
-img_right = "/Users/aubinheissler/Desktop/ETS/cours/SYS_809/Projet/Bouteille/Droite/proche.jpg"
-img_left = "/Users/aubinheissler/Desktop/ETS/cours/SYS_809/Projet/Bouteille/Gauche/proche.jpg"
+img_right = "/Users/aubinheissler/Desktop/ETS/cours/SYS_809/Projet/Bouteille/Gauche/face.JPG"
+img_left = "/Users/aubinheissler/Desktop/ETS/cours/SYS_809/Projet/Bouteille/Droite/face.JPG"
 
 Left = cv2.imread(img_left)
 Right = cv2.imread(img_right)
@@ -55,7 +57,7 @@ def Display_compare(img_base, img_transform):
 def fusion_2_img(images, display=False):
     """
     @brief  : fusionne deux images en les ajoutants une à coté de l'autre
-    @params : images  : liste des deux images, gauche, droite
+    @params : images  : liste de deux images, gauche, droite
               display : permet l'affichage de l'image obtenue
     @return : une image
     """
@@ -103,6 +105,14 @@ def projection(images, warps):
               warps  : liste de matrice 3x2 de transformation affine
     @return : liste d'images transformées
     """
-    Left_warp = cv2.warpAffine(images[0], warps[0], (size[0], size[1]), flags=cv2.WARP_INVERSE_MAP)
-    Right_warp = cv2.warpAffine(images[1], warps[1], (size[0], size[1]), flags=cv2.WARP_INVERSE_MAP)
+    Left_warp = cv2.warpAffine(images[0], warps[0], (size[1], size[0]), flags=cv2.WARP_INVERSE_MAP)
+    Right_warp = cv2.warpAffine(images[1], warps[1], (size[1], size[0]), flags=cv2.WARP_INVERSE_MAP)
     return Left_warp, Right_warp
+
+
+warp = findTransform(img)
+img_proj = projection(img, warp)
+fusion = fusion_2_img(img_proj, True)
+cv2.imwrite("test5.JPG", fusion)
+
+Display_compare(img, img_proj)

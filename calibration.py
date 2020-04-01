@@ -27,11 +27,10 @@ Classes:
 """
 
 import os
-
 import cv2
-
 import numpy as np
-# from exceptions import ChessboardNotFoundError
+
+from exceptions import ChessboardNotFoundError
 from matplotlib import pyplot as plt
 
 
@@ -307,8 +306,8 @@ class StereoCalibrator(object):
         return total_error / total_points
 
 
-img_right = "/Users/aubinheissler/Desktop/ETS/cours/SYS_809/Projet/Image_calibration/Stereo/Droite/StereoD.jpg"
-img_left = "/Users/aubinheissler/Desktop/ETS/cours/SYS_809/Projet/Image_calibration/Stereo/Gauche/StereoL.jpg"
+img_right = "/Users/aubinheissler/Desktop/ETS/cours/SYS_809/Projet/Image_calibration/Stereo/rapproche/Droite/D.JPG"
+img_left = "/Users/aubinheissler/Desktop/ETS/cours/SYS_809/Projet/Image_calibration/Stereo/rapproche/Gauche/G.JPG"
 outdir = "/Users/aubinheissler/Desktop/ETS/cours/SYS_809/Projet/data_calib"
 R = cv2.imread(img_right)
 L = cv2.imread(img_left)
@@ -317,4 +316,5 @@ Size = (L.shape[0], L.shape[1])
 calibrator = StereoCalibrator(6, 9, 1, Size)
 calibrator.add_corners((L, R))
 calibration = calibrator.calibrate_cameras()
+# print(calibrator.check_calibration(calibration))
 calibration.export(outdir)
